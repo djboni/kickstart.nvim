@@ -807,6 +807,17 @@ require('lazy').setup({
     end,
   },
 
+  {
+    'nvim-tree/nvim-tree.lua',
+    config = function()
+      require('nvim-tree').setup {}
+      vim.keymap.set('n', '<leader>tf', ':NvimTreeFocus<CR>', { silent = true, desc = '[T]ree [F]ocus' })
+      vim.keymap.set('n', '<leader>tt', ':NvimTreeToggle<CR>', { silent = true, desc = '[T]ree [T]oggle' })
+      vim.keymap.set('n', '<leader>ts', ':NvimTreeFindFile<CR>', { silent = true, desc = '[T]ree [S]how File' })
+      vim.keymap.set('n', '<leader>tc', ':NvimTreeCollapse<CR>', { silent = true, desc = '[T]ree [C]ollapse' })
+    end,
+  },
+
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- put them in the right spots if you want.

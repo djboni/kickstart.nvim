@@ -815,10 +815,14 @@ require('lazy').setup({
     'nvim-tree/nvim-tree.lua',
     config = function()
       require('nvim-tree').setup {}
+      local api = require 'nvim-tree.api'
+      api.tree.toggle_gitignore_filter()
+      -- api.tree.toggle_hidden_filter()
       vim.keymap.set('n', '<leader>tf', ':NvimTreeFocus<CR>', { silent = true, desc = '[T]ree [F]ocus' })
       vim.keymap.set('n', '<leader>tt', ':NvimTreeToggle<CR>', { silent = true, desc = '[T]ree [T]oggle' })
       vim.keymap.set('n', '<leader>ts', ':NvimTreeFindFile<CR>', { silent = true, desc = '[T]ree [S]how File' })
       vim.keymap.set('n', '<leader>tc', ':NvimTreeCollapse<CR>', { silent = true, desc = '[T]ree [C]ollapse' })
+      vim.keymap.set('n', '<leader>ti', api.tree.toggle_gitignore_filter, { silent = true, desc = '[T]ree Toggle [I]gnored Files' })
     end,
   },
 

@@ -213,6 +213,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Start terminal with :terminal in INSERT mode
+vim.api.nvim_create_autocmd({ 'TermOpen' }, {
+  pattern = { '*' },
+  command = 'startinsert',
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'

@@ -163,7 +163,7 @@ vim.opt.spelllang = 'en_us,pt_br'
 vim.opt.spell = true
 
 -- Highlight columns
-vim.opt.colorcolumn = { 80, 120, 160 }
+vim.opt.colorcolumn = { 80 }
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })

@@ -194,10 +194,12 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
--- Custom
-vim.keymap.set('i', 'kj', '<Esc>', { desc = 'Make kj in insert mode act as <Esc>' })
-vim.keymap.set('i', 'KJ', '<Esc>', { desc = 'Make KJ in insert mode act as <Esc>' })
-vim.keymap.set('n', 'KJ', '<Esc>', { desc = 'Make KJ in normal mode act as <Esc>' })
+-- Custom change to Normal mode
+vim.keymap.set('i', 'kj', '<Esc>', { desc = 'Exit insert mode' })
+vim.keymap.set('i', 'KJ', '<Esc>', { desc = 'Exit insert mode' })
+vim.keymap.set('t', 'kj', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('t', 'KJ', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('n', 'KJ', '<Esc>', { desc = 'Noop in normal mode' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`

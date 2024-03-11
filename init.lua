@@ -217,8 +217,23 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- Start terminal with :terminal in INSERT mode
 vim.api.nvim_create_autocmd({ 'TermOpen' }, {
+  desc = 'Set terminal to insert mode when creating a terminal',
   pattern = { '*' },
   command = 'startinsert',
+})
+vim.api.nvim_create_autocmd({ 'WinEnter' }, {
+  desc = 'Set terminal to insert mode when entering a terminal',
+  pattern = 'term://*',
+  callback = function()
+    vim.cmd 'startinsert'
+  end,
+})
+vim.api.nvim_create_autocmd({ 'WinLeave' }, {
+  desc = 'Set terminal to normal mode when leavint a terminal',
+  pattern = 'term://*',
+  callback = function()
+    vim.cmd 'stopinsert'
+  end,
 })
 
 -- [[ Install `lazy.nvim` plugin manager ]]

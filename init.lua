@@ -904,12 +904,16 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 
 -- Auto run helper.
 --
--- Open a terminal and run a command in the terminal when write matches
--- the pattern. At any time you can go to the terminal, execute commands,
--- stop commands, etc.
+-- Open a terminal and run the command once. Every time a write matches
+-- the pattern the last command is executed again by writing "<Up><Return>"
+-- (up arrow and return) in the terminal.
+--
+-- At any time you can go to the terminal and stop the current command with
+-- Ctrl+C. You can also execute any command you want, including fixing
+-- a bad command.
 --
 -- Example: `:AutoRun`
---          Pattern: `*.c`
+--          Pattern: `*.[ch]`
 --          Command: `make && ./main`
 local attach_to_buffer = function(pattern, command)
   vim.cmd 'split'
@@ -917,17 +921,20 @@ local attach_to_buffer = function(pattern, command)
   local bufnr = vim.api.nvim_get_current_buf()
   vim.cmd 'wincmd p'
   local channr = -1
+  -- Find the terminal's channel number with the buffer number
   for _, chan in ipairs(vim.api.nvim_list_chans()) do
     if chan.buffer == bufnr then
       channr = chan.id
     end
   end
+  vim.cmd 'sleep 100m'
+  vim.api.nvim_chan_send(channr, command .. '\n')
 
   vim.api.nvim_create_autocmd('BufWritePost', {
     group = vim.api.nvim_create_augroup('autorun-magic', { clear = true }),
     pattern = pattern,
     callback = function()
-      vim.api.nvim_chan_send(channr, command .. '\n')
+      vim.api.nvim_chan_send(channr, '\x1B[A' .. '\n') -- <Up><Return>
     end,
   })
 end

@@ -902,5 +902,42 @@ vim.api.nvim_create_autocmd('BufReadPost', {
   end,
 })
 
+-- Auto run helper.
+--
+-- Open a terminal and run a command in the terminal when write matches
+-- the pattern. At any time you can go to the terminal, execute commands,
+-- stop commands, etc.
+--
+-- Example: `:AutoRun`
+--          Pattern: `*.c`
+--          Command: `make && ./main`
+local attach_to_buffer = function(pattern, command)
+  vim.cmd 'split'
+  vim.cmd 'terminal'
+  local bufnr = vim.api.nvim_get_current_buf()
+  vim.cmd 'wincmd p'
+  local channr = -1
+  for _, chan in ipairs(vim.api.nvim_list_chans()) do
+    if chan.buffer == bufnr then
+      channr = chan.id
+    end
+  end
+
+  vim.api.nvim_create_autocmd('BufWritePost', {
+    group = vim.api.nvim_create_augroup('autorun-magic', { clear = true }),
+    pattern = pattern,
+    callback = function()
+      vim.api.nvim_chan_send(channr, command .. '\n')
+    end,
+  })
+end
+
+vim.api.nvim_create_user_command('AutoRun', function()
+  print 'AutoRun starts now...'
+  local pattern = vim.fn.input 'AuroRun Pattern: '
+  local command = vim.fn.input 'AutoRun Command: '
+  attach_to_buffer(pattern, command)
+end, {})
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

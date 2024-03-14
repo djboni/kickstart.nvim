@@ -928,9 +928,11 @@ local attach_to_buffer = function(pattern, command)
   vim.cmd 'wincmd p'
   -- Find the terminal's channel number with the buffer number
   local channr = -1
+  local pidnr = -1
   for _, chan in ipairs(vim.api.nvim_list_chans()) do
     if chan.buffer == bufnr then
       channr = chan.id
+      pidnr = vim.fn.jobpid(channr)
     end
   end
   vim.cmd 'sleep 100m'
@@ -940,7 +942,14 @@ local attach_to_buffer = function(pattern, command)
     group = vim.api.nvim_create_augroup('autorun-magic', { clear = true }),
     pattern = pattern,
     callback = function()
-      vim.api.nvim_chan_send(channr, UPARROW .. RETURN)
+      local child_pids = vim.api.nvim_get_proc_children(pidnr)
+      if #child_pids == 0 then
+        --print("AutoRun: running last command...")
+        vim.api.nvim_chan_send(channr, UPARROW .. RETURN)
+      else
+        --print("AutoRun: still running PID:")
+        --vim.print(child_pids)
+      end
     end,
   })
 end

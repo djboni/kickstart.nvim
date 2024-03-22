@@ -202,6 +202,10 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- Custom change to Normal mode
 vim.keymap.set('i', 'kj', '<Esc>', { desc = 'Exit insert mode' })
 
+-- Custom save
+vim.keymap.set('n', '<C-s>', ':w<Return>', { desc = 'Save' })
+vim.keymap.set('i', '<C-s>', '<Esc>:w<Return>a', { desc = 'Save' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 

@@ -230,6 +230,21 @@ vim.api.nvim_create_autocmd({ 'TermOpen' }, {
   command = 'startinsert',
 })
 
+-- On Windows open Git-Bash instead of CMD
+if vim.fn.has 'win32' == 1 then
+  local myshell = 'C:\\Program Files\\Git\\bin\\bash.exe'
+  --local myshell = 'C:\\Windws\\Sysnative\\wsl.exe'
+  if vim.fn.executable(myshell) == 1 then
+    vim.o.shell = '"' .. myshell .. '"'
+    vim.o.shellslash = true
+    vim.o.shellpipe = '|'
+    vim.o.shellredir = '>'
+    vim.o.shellquote = '"'
+    vim.o.shellxquote = ''
+    vim.o.shellcmdflag = '-c'
+  end
+end
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'

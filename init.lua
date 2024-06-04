@@ -207,8 +207,8 @@ vim.keymap.set('n', '<C-s>', ':w<Return>', { desc = 'Save' })
 vim.keymap.set('i', '<C-s>', '<Esc>:w<Return>a', { desc = 'Save' })
 
 -- Custom break current line
-vim.keymap.set('n', '<C-k>', '080lBXi<Return><Esc>080l', { desc = 'Break line at column 80' })
-vim.keymap.set('i', '<C-k>', '<Esc>080lBXi<Return><Esc>079la', { desc = 'Break line at column 80' })
+vim.keymap.set('n', '<C-j>', '080lBXi<Return><Esc>080l', { desc = 'Break line at column 80' })
+vim.keymap.set('i', '<C-j>', '<Esc>080lBXi<Return><Esc>079la', { desc = 'Break line at column 80' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`

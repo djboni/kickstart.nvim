@@ -326,8 +326,6 @@ require('lazy').setup({
         { '<leader>s', group = '[S]earch' },
         { '<leader>w', group = '[W]orkspace' },
         { '<leader>t', group = '[T]oggle' },
-        -- TODO: review
-        --{ '<leader>t', group = 'File [T]ree' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       }
     end,
@@ -932,12 +930,11 @@ require('lazy').setup({
       local api = require 'nvim-tree.api'
       -- api.tree.toggle_gitignore_filter()
       -- api.tree.toggle_hidden_filter()
-      -- TODO: review
-      --vim.keymap.set('n', '<leader>tf', ':NvimTreeFocus<CR>', { silent = true, desc = '[T]ree [F]ocus' })
-      --vim.keymap.set('n', '<leader>tt', ':NvimTreeToggle<CR>', { silent = true, desc = '[T]ree [T]oggle' })
-      --vim.keymap.set('n', '<leader>ts', ':NvimTreeFindFile<CR>', { silent = true, desc = '[T]ree [S]how File' })
-      --vim.keymap.set('n', '<leader>tc', ':NvimTreeCollapse<CR>', { silent = true, desc = '[T]ree [C]ollapse' })
-      --vim.keymap.set('n', '<leader>ti', api.tree.toggle_gitignore_filter, { silent = true, desc = '[T]ree Toggle [I]gnored Files' })
+      vim.keymap.set('n', '<leader>tf', ':NvimTreeFocus<CR>', { silent = true, desc = '[T]ree [F]ocus' })
+      vim.keymap.set('n', '<leader>tt', ':NvimTreeToggle<CR>', { silent = true, desc = '[T]ree [T]oggle' })
+      vim.keymap.set('n', '<leader>ts', ':NvimTreeFindFile<CR>', { silent = true, desc = '[T]ree [S]how File' })
+      vim.keymap.set('n', '<leader>tc', ':NvimTreeCollapse<CR>', { silent = true, desc = '[T]ree [C]ollapse' })
+      vim.keymap.set('n', '<leader>ti', api.tree.toggle_gitignore_filter, { silent = true, desc = '[T]ree Toggle [I]gnored Files' })
     end,
   },
 

@@ -995,6 +995,18 @@ vim.api.nvim_create_autocmd('BufReadPost', {
   end,
 })
 
+-- Keep folds on save
+vim.api.nvim_create_autocmd({ 'BufWinLeave' }, {
+  pattern = { '*.*' },
+  desc = 'Save view (folds), when closing file',
+  command = 'mkview',
+})
+vim.api.nvim_create_autocmd({ 'BufWinEnter' }, {
+  pattern = { '*.*' },
+  desc = 'Load view (folds), when opening file',
+  command = 'silent! loadview',
+})
+
 -- Auto run helper.
 --
 -- Open a terminal and run the command once. Every time a write matches

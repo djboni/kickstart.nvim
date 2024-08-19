@@ -980,16 +980,17 @@ require('lazy').setup({
 
 -- Reopen files on the same line
 vim.api.nvim_create_autocmd('BufReadPost', {
-  pattern = { '*' },
+  pattern = { '*.*' },
+  desc = 'Reopen files on the same line',
   callback = function()
     local filename = vim.fn.expand '%'
-    if string.match(filename, '.git/COMMIT_EDITMSG$') then
+    if string.match(filename, '/COMMIT_EDITMSG$') then
       return
-    elseif string.match(filename, '.git/rebase-merge/git-rebase-todo$') then
+    elseif string.match(filename, '/git-rebase-todo$') then
       return
     end
     if vim.fn.line '\'"' > 1 and vim.fn.line '\'"' <= vim.fn.line '$' then
-      vim.api.nvim_exec('normal! g\'"', false)
+      vim.api.nvim_exec2('normal! g\'"', { output = false })
     end
   end,
 })

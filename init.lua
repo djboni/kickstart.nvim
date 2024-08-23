@@ -102,7 +102,7 @@ vim.g.have_nerd_font = false
 vim.opt.number = true
 -- You can also add relative line numbers, for help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -149,7 +149,12 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 3
+
+-- Tabs
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.expandtab = true
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -157,6 +162,13 @@ vim.opt.scrolloff = 10
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
+-- Set spell checking
+vim.opt.spelllang = 'en_us,pt_br'
+vim.opt.spell = true
+
+-- Highlight columns
+vim.opt.colorcolumn = { 80 }
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
@@ -187,6 +199,13 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- Custom change to Normal mode
+vim.keymap.set('i', 'kj', '<Esc>', { desc = 'Exit insert mode' })
+
+-- Custom save
+vim.keymap.set('n', '<C-s>', ':w<Return>', { desc = 'Save' })
+vim.keymap.set('i', '<C-s>', '<Esc>:w<Return>a', { desc = 'Save' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -200,6 +219,27 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+-- Start terminal with :terminal in INSERT mode
+vim.api.nvim_create_autocmd({ 'TermOpen' }, {
+  pattern = { '*' },
+  command = 'startinsert',
+})
+
+-- On Windows open Git-Bash instead of CMD
+if vim.fn.has 'win32' == 1 then
+  local myshell = 'C:\\Program Files\\Git\\bin\\bash.exe'
+  --local myshell = 'C:\\Windws\\Sysnative\\wsl.exe'
+  if vim.fn.executable(myshell) == 1 then
+    vim.o.shell = '"' .. myshell .. '"'
+    vim.o.shellslash = true
+    vim.o.shellpipe = '|'
+    vim.o.shellredir = '>'
+    vim.o.shellquote = '"'
+    vim.o.shellxquote = ''
+    vim.o.shellcmdflag = '-c'
+  end
+end
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
@@ -344,12 +384,23 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
-        -- pickers = {}
+        defaults = {
+          file_ignore_patterns = {
+            '^[.]git/',
+            '/[.]git/',
+          },
+          -- mappings = {
+          --   i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          -- },
+        },
+        pickers = {
+          find_files = {
+            hidden = true,
+            follow = true,
+            -- no_ignore = true,
+            -- no_ignore_parent = true,
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -532,9 +583,10 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
+        zls = {},
+        clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {}, -- Needs npm (https://nodejs.org/en/download)
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -615,7 +667,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'isort', 'black' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -801,6 +853,21 @@ require('lazy').setup({
     end,
   },
 
+  {
+    'nvim-tree/nvim-tree.lua',
+    config = function()
+      require('nvim-tree').setup {}
+      local api = require 'nvim-tree.api'
+      -- api.tree.toggle_gitignore_filter()
+      -- api.tree.toggle_hidden_filter()
+      vim.keymap.set('n', '<leader>tf', ':NvimTreeFocus<CR>', { silent = true, desc = '[T]ree [F]ocus' })
+      vim.keymap.set('n', '<leader>tt', ':NvimTreeToggle<CR>', { silent = true, desc = '[T]ree [T]oggle' })
+      vim.keymap.set('n', '<leader>ts', ':NvimTreeFindFile<CR>', { silent = true, desc = '[T]ree [S]how File' })
+      vim.keymap.set('n', '<leader>tc', ':NvimTreeCollapse<CR>', { silent = true, desc = '[T]ree [C]ollapse' })
+      vim.keymap.set('n', '<leader>ti', api.tree.toggle_gitignore_filter, { silent = true, desc = '[T]ree Toggle [I]gnored Files' })
+    end,
+  },
+
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- put them in the right spots if you want.
@@ -840,6 +907,94 @@ require('lazy').setup({
     },
   },
 })
+
+-- Reopen files on the same line
+vim.api.nvim_create_autocmd('BufReadPost', {
+  pattern = { '*.*' },
+  desc = 'Reopen files on the same line',
+  callback = function()
+    local filename = vim.fn.expand '%'
+    if string.match(filename, '/COMMIT_EDITMSG$') then
+      return
+    elseif string.match(filename, '/git-rebase-todo$') then
+      return
+    end
+    if vim.fn.line '\'"' > 1 and vim.fn.line '\'"' <= vim.fn.line '$' then
+      vim.api.nvim_exec2('normal! g\'"', { output = false })
+    end
+  end,
+})
+
+-- Keep folds on save
+vim.api.nvim_create_autocmd({ 'BufWinLeave' }, {
+  pattern = { '*.*' },
+  desc = 'Save view (folds), when closing file',
+  command = 'mkview',
+})
+vim.api.nvim_create_autocmd({ 'BufWinEnter' }, {
+  pattern = { '*.*' },
+  desc = 'Load view (folds), when opening file',
+  command = 'silent! loadview',
+})
+
+-- Auto run helper.
+--
+-- Open a terminal and run the command once. Every time a write matches
+-- the pattern the last command is executed again by writing "<Up><Return>"
+-- (up arrow and return) in the terminal.
+--
+-- At any time you can go to the terminal and stop the current command with
+-- Ctrl+C. You can also execute any command you want, including fixing
+-- a bad command.
+--
+-- Example: `:AutoRun`
+--          Pattern: `*.[ch]`
+--          Command: `make && ./main`
+local attach_to_buffer = function(pattern, command)
+  local UPARROW = '\x1B[A' -- <Up>
+  local RETURN = '\n' -- <Return>
+  if vim.loop.os_uname().sysname == 'Windows_NT' then
+    RETURN = '\r'
+  end
+
+  vim.cmd 'split'
+  vim.cmd 'terminal'
+  local bufnr = vim.api.nvim_get_current_buf()
+  vim.cmd 'wincmd p'
+  -- Find the terminal's channel number with the buffer number
+  local channr = -1
+  local pidnr = -1
+  for _, chan in ipairs(vim.api.nvim_list_chans()) do
+    if chan.buffer == bufnr then
+      channr = chan.id
+      pidnr = vim.fn.jobpid(channr)
+    end
+  end
+  vim.cmd 'sleep 100m'
+  vim.api.nvim_chan_send(channr, command .. RETURN)
+
+  vim.api.nvim_create_autocmd('BufWritePost', {
+    group = vim.api.nvim_create_augroup('autorun-magic', { clear = true }),
+    pattern = pattern,
+    callback = function()
+      local child_pids = vim.api.nvim_get_proc_children(pidnr)
+      if #child_pids == 0 then
+        --print("AutoRun: running last command...")
+        vim.api.nvim_chan_send(channr, UPARROW .. RETURN)
+      else
+        --print("AutoRun: still running PID:")
+        --vim.print(child_pids)
+      end
+    end,
+  })
+end
+
+vim.api.nvim_create_user_command('AutoRun', function()
+  print 'AutoRun starts now...'
+  local pattern = vim.fn.input 'AuroRun Pattern: '
+  local command = vim.fn.input 'AutoRun Command: '
+  attach_to_buffer(pattern, command)
+end, {})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

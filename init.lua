@@ -616,7 +616,7 @@ require('lazy').setup({
         zls = {},
         clangd = {},
         -- gopls = {},
-        pyright = {}, -- Needs npm (https://nodejs.org/en/download)
+        -- pyright = {}, -- Needs npm (https://nodejs.org/en/download)
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --

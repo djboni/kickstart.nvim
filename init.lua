@@ -438,18 +438,19 @@ require('lazy').setup({
   },
 
   -- LSP Plugins
-  {
-    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-    -- used for completion, annotations and signatures of Neovim apis
-    'folke/lazydev.nvim',
-    ft = 'lua',
-    opts = {
-      library = {
-        -- Load luvit types when the `vim.uv` word is found
-        { path = 'luvit-meta/library', words = { 'vim%.uv' } },
-      },
-    },
-  },
+  -- XXX: NeoVim 0.9: lazydev requires NeoVim >= 0.10
+  --{
+  --  -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
+  --  -- used for completion, annotations and signatures of Neovim apis
+  --  'folke/lazydev.nvim',
+  --  ft = 'lua',
+  --  opts = {
+  --    library = {
+  --      -- Load luvit types when the `vim.uv` word is found
+  --      { path = 'luvit-meta/library', words = { 'vim%.uv' } },
+  --    },
+  --  },
+  --},
   { 'Bilal2453/luvit-meta', lazy = true },
   {
     -- Main LSP Configuration
@@ -553,7 +554,9 @@ require('lazy').setup({
           --
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+          -- XXX: NeoVim 0.9: This condition requires NeoVim >= 0.10
+          -- if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+          if client and client.server_capabilities.documentHighlightProvider then
             local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
               buffer = event.buf,
@@ -580,7 +583,9 @@ require('lazy').setup({
           -- code, if the language server you are using supports them
           --
           -- This may be unwanted, since they displace some of your code
-          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+          -- XXX: NeoVim 0.9: This condition requires NeoVim >= 0.10
+          -- if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+          if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
             map('<leader>th', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
@@ -667,6 +672,8 @@ require('lazy').setup({
 
   { -- Autoformat
     'stevearc/conform.nvim',
+    -- XXX: NeoVim 0.9: conform default branch requires NeoVim >= 0.10
+    branch = 'nvim-0.9',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
     keys = {

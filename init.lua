@@ -170,13 +170,7 @@ vim.opt.expandtab = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Set spell checking
-if vim.fn.has 'win32' == 1 then
-  -- For some reason Windows cannot download the spell dictionary and that
-  -- makes nvim crash.
-  vim.opt.spelllang = 'en_us'
-else
-  vim.opt.spelllang = 'en_us,pt_br'
-end
+vim.opt.spelllang = 'en_us,pt_br'
 vim.opt.spell = true
 
 -- Highlight columns

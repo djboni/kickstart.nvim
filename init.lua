@@ -925,6 +925,8 @@ vim.api.nvim_create_autocmd('BufReadPost', {
       return
     elseif string.match(filename, '/git-rebase-todo$') then
       return
+    elseif string.match(filename, '/addp-hunk-edit.diff$') then
+      return
     end
     if vim.fn.line '\'"' > 1 and vim.fn.line '\'"' <= vim.fn.line '$' then
       vim.api.nvim_exec2('normal! g\'"', { output = false })

@@ -231,3 +231,8 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
 ```
 </details>
 
+# Key Map
+
+```
+<leader>tu      - Toggle Undo Tree
+```

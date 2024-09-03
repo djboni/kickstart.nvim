@@ -236,27 +236,29 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
 ```
 <leader>tu      - Toggle Undo Tree
 \               - Toggle Filesystem Tree
+<C-\>           - Toggle terminal
 
-<C><Down>       - Multi line edit
-<C><Up>         - Multi line edit
-<C>n            - Multi line edit (same word)
-    q           - Skip line
-    Q           - Back one line
+<C-Down>        - Multi line edit
+<C-Up>          - Multi line edit
+<C-n>           - Multi line edit (same word)
+     n          - Next line
+     q          - Skip line
+     Q          - Previous line
 
 <leader>sf      - Search files
 <leader>sg      - Search by grep
 
-<C>h            - Window Left
-<C>j            - Window Down
-<C>k            - Window Up
-<C>l            - Window Right
+<C-h>           - Window Left
+<C-j>           - Window Down
+<C-k>           - Window Up
+<C-l>           - Window Right
 
-<C>w_           - Window Max Length
-<C>w|           - Window Max Width
-<C>wq           - Window Quit
+<C-w>_          - Window Max Length
+<C-w>|          - Window Max Width
+<C-w>q          - Window Quit
 
 :terminal       - Open a terminal
-<C>\<C>n        - Exit terminal mode
+<C-\><C-n>       - Exit terminal mode
 a/i             - Start terminal mode (insert)
 
 ]s              - Next spell error

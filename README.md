@@ -231,3 +231,31 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
 ```
 </details>
 
+# Key Map
+
+```
+<leader>tu      - Toggle Undo Tree
+\               - Toggle Filesystem Tree
+
+<leader>sf      - Search files
+<leader>sg      - Search by grep
+
+<C>h            - Window Left
+<C>j            - Window Down
+<C>k            - Window Up
+<C>l            - Window Right
+
+<C>w_           - Window Max Length
+<C>w|           - Window Max Width
+<C>wq           - Window Quit
+
+:terminal       - Open a terminal
+<C>\<C>n        - Exit terminal mode
+a/i             - Start terminal mode (insert)
+
+]s              - Next spell error
+[s              - Previous spell error
+z=              - Spell suggestions
+zg              - Mark work as correctly spelled
+zw              - Mark work as mispelled
+```

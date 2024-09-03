@@ -237,6 +237,12 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
 <leader>tu      - Toggle Undo Tree
 \               - Toggle Filesystem Tree
 
+<C><Down>       - Multi line edit
+<C><Up>         - Multi line edit
+<C>n            - Multi line edit (same word)
+    q           - Skip line
+    Q           - Back one line
+
 <leader>sf      - Search files
 <leader>sg      - Search by grep
 

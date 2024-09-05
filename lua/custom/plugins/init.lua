@@ -28,12 +28,6 @@ vim.keymap.set('i', 'kj', '<Esc>', { desc = 'Exit insert mode' })
 vim.keymap.set('n', '<C-s>', ':w<Return>', { desc = 'Save' })
 vim.keymap.set('i', '<C-s>', '<Esc>:w<Return>a', { desc = 'Save' })
 
--- Start terminal with :terminal in INSERT mode
-vim.api.nvim_create_autocmd({ 'TermOpen' }, {
-  pattern = { '*' },
-  command = 'startinsert',
-})
-
 -- On Windows open Git-Bash instead of CMD
 if vim.fn.has 'win32' == 1 then
   local myshell = 'C:\\Program Files\\Git\\bin\\bash.exe'

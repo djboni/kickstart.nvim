@@ -28,6 +28,21 @@ vim.keymap.set('i', 'kj', '<Esc>', { desc = 'Exit insert mode' })
 vim.keymap.set('n', '<C-s>', ':w<Return>', { desc = 'Save' })
 vim.keymap.set('i', '<C-s>', '<Esc>:w<Return>a', { desc = 'Save' })
 
+-- Terminal keymaps
+function _G.set_terminal_keymaps()
+  local opts = { buffer = 0 }
+  -- These two keymaps interfere with NeoVim open in a terminal inside NeoVim.
+  --vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', opts)
+  --vim.keymap.set('t', 'kj', '<C-\\><C-n>', opts)
+  vim.keymap.set('t', '<C-h>', '<Cmd>wincmd h<CR>', opts)
+  vim.keymap.set('t', '<C-j>', '<Cmd>wincmd j<CR>', opts)
+  vim.keymap.set('t', '<C-k>', '<Cmd>wincmd k<CR>', opts)
+  vim.keymap.set('t', '<C-l>', '<Cmd>wincmd l<CR>', opts)
+  vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>', opts)
+  vim.cmd 'startinsert'
+end
+vim.cmd 'autocmd! TermOpen term://* lua set_terminal_keymaps()'
+
 -- On Windows open Git-Bash instead of CMD
 if vim.fn.has 'win32' == 1 then
   local myshell = 'C:\\Program Files\\Git\\bin\\bash.exe'

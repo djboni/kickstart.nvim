@@ -22,7 +22,7 @@ end, { desc = 'ToggleTerm run last [k]ommand' })
 return {
   'akinsho/toggleterm.nvim',
   opts = {
-    open_mapping = '<C-\\>',
+    open_mapping = '<M-\\>',
     direction = 'tab',
     size = function(term)
       if term.direction == 'horizontal' then

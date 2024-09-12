@@ -233,10 +233,13 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
 
 # Key Map
 
+- `<C-x>` means `Ctrl+X`
+- `<M-x>` means `Alt+X`
+
 ```
 <leader>tu      - Toggle Undo Tree
 \               - Toggle Filesystem Tree
-<C-\>           - Toggle terminal
+<M-\>           - Toggle terminal
 
 <C-Down>        - Multi line edit
 <C-Up>          - Multi line edit
@@ -257,8 +260,8 @@ sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
 <C-w>|          - Window Max Width
 <C-w>q          - Window Quit
 
-:terminal       - Open a terminal
-<C-\><C-n>       - Exit terminal mode
+:terminal       - Open a terminal buffer
+<C-\><C-n>      - Exit terminal mode
 a/i             - Start terminal mode (insert)
 
 ]s              - Next spell error
@@ -266,4 +269,20 @@ a/i             - Start terminal mode (insert)
 z=              - Spell suggestions
 zg              - Mark work as correctly spelled
 zw              - Mark work as mispelled
+
+ma              - Add bookmark 'a'
+`a              - Go to bookmark 'a'
+
+zi              - Toggle folding
+zf              - Create fold with visual selection
+za              - Toggle fold
+zo              - Open fold
+zc              - Close fold
+zd              - Delete fold
+zR              - Open all folds
+zM              - Close all folds
+zE              - Delete all folds
+
+J               - Join lines
+gwl             - Break line
 ```

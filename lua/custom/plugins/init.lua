@@ -3,6 +3,9 @@
 --
 -- See the kickstart.nvim README for more information
 
+-- Disable intro message
+vim.opt.shortmess:append 'I'
+
 -- Relative line numbers
 vim.opt.relativenumber = true
 

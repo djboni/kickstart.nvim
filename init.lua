@@ -863,6 +863,16 @@ require('lazy').setup({
         default = { 'buffer', 'lsp', 'path', 'snippets', 'lazydev' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
+          buffer = {
+            opts = {
+              -- Completion from all open buffers
+              get_bufnrs = function()
+                return vim.tbl_filter(function(bufnr)
+                  return vim.bo[bufnr].buftype == ''
+                end, vim.api.nvim_list_bufs())
+              end,
+            },
+          },
         },
       },
 

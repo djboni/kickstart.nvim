@@ -14,7 +14,7 @@ end, { desc = 'ToggleTerm [T]ab' })
 return {
   'akinsho/toggleterm.nvim',
   opts = {
-    open_mapping = '<M-q>',
+    open_mapping = '<M-,>',
     direction = 'tab',
     size = function(term)
       if term.direction == 'horizontal' then

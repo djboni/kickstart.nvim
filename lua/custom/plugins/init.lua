@@ -3,6 +3,12 @@
 --
 -- See the kickstart.nvim README for more information
 
+-- Build and go to first error
+-- Change the build command with `:set makeprg=gcc\ %\ -c\ -o\ /tmp/nvim.$USER/%<.o`
+-- - % is the current file name
+-- - %< is the current file name without the extension
+vim.keymap.set('n', '<leader>b', ':make<CR>:cfirst<CR><CR>', { desc = 'Build and go to first error' })
+
 -- Disable intro message
 vim.opt.shortmess:append 'I'
 
